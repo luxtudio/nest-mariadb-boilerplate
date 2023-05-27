@@ -1,0 +1,32 @@
+version: '3'
+services:
+  rest-api:
+    image: nestjs-rest-api
+    container_name: nestjs-rest-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile.development
+    env_file:
+    - .env.development
+    networks:
+    - backend
+    volumes:
+    - ./:/src
+    - ./node_modules:/src/node_modules
+    ports:
+    - 3000:3000
+    depends_on:
+    - mariadb
+  mariadb:
+    image: mariadb:10.11
+    container_name: nestjs-mariadb
+    env_file:
+    - .env.development
+    networks:
+    - backend
+    volumes:
+    - ./mariadb/data:/var/lib/mysql
+    - ./mariadb/conf/mariadb.cnf:/etc/mysql/my.cnf
+networks:
+  backend:
+    driver: bridge

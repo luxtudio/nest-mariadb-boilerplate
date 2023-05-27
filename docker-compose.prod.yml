@@ -1,0 +1,14 @@
+version: '3'
+services:
+  nestjs:
+    image: nest-mariadb-boilerplate
+    container_name: nest-mariadb-boilerplate-nestjs
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: always
+    env_file:
+    - .env
+networks:
+  backend:
+    driver: bridge
